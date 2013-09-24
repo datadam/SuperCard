@@ -16,9 +16,4 @@
 @property (nonatomic) SymbolType symbol;
 @property (nonatomic) NumberType number;
 
-// designated initializer
-- (id)initWithNumber:(NumberType) number
-              symbol:(SymbolType) symbol
-               shade:(ShadeType) shading
-               color:(ColorType) color;
 @end

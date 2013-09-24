@@ -57,7 +57,7 @@
 #else
     Card *setCard = [[SetCard alloc] initWithNumber:kOne
                                              symbol:kDiamond
-                                              shade:kOpen
+                                              shade:kSolid
                                               color:kGreen
                                                text:@""];
 #endif
