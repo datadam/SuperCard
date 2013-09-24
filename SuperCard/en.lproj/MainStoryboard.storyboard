@@ -37,6 +37,7 @@
                     </view>
                     <connections>
                         <outlet property="playingCardView" destination="BbS-UV-6pL" id="VSF-Ti-b2R"/>
+                        <outlet property="setCardView" destination="G2f-G5-jiY" id="Yrx-Eq-S10"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -64,6 +65,7 @@
             <relationships>
                 <relationship kind="action" name="swipe:" candidateClass="UISwipeGestureRecognizer"/>
                 <relationship kind="outlet" name="playingCardView" candidateClass="PlayingCardView"/>
+                <relationship kind="outlet" name="setCardView" candidateClass="SetCardView"/>
             </relationships>
         </class>
     </classes>

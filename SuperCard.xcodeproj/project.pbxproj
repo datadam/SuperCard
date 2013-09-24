@@ -54,6 +54,8 @@
 		65B878B917F1AF360017161F /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B878B817F1AF350017161F /* Card.m */; };
 		65B878BC17F1AF6F0017161F /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B878BB17F1AF6F0017161F /* Deck.m */; };
 		65BB536F17F1B76600353C65 /* SetCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BB536E17F1B76600353C65 /* SetCardView.m */; };
+		65BB537217F1B96200353C65 /* SetCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BB537117F1B96200353C65 /* SetCard.m */; };
+		65BB537517F1B97900353C65 /* SetCardDeck.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BB537417F1B97900353C65 /* SetCardDeck.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +128,10 @@
 		65B878BB17F1AF6F0017161F /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Deck.m; sourceTree = "<group>"; };
 		65BB536D17F1B76600353C65 /* SetCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetCardView.h; sourceTree = "<group>"; };
 		65BB536E17F1B76600353C65 /* SetCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCardView.m; sourceTree = "<group>"; };
+		65BB537017F1B96200353C65 /* SetCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetCard.h; sourceTree = "<group>"; };
+		65BB537117F1B96200353C65 /* SetCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCard.m; sourceTree = "<group>"; };
+		65BB537317F1B97900353C65 /* SetCardDeck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetCardDeck.h; sourceTree = "<group>"; };
+		65BB537417F1B97900353C65 /* SetCardDeck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCardDeck.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +203,10 @@
 				65B8787E17F1ABA60017161F /* cardback.png */,
 				65B878B117F1AE790017161F /* PlayingCard.h */,
 				65B878B217F1AE790017161F /* PlayingCard.m */,
+				65BB537017F1B96200353C65 /* SetCard.h */,
+				65BB537117F1B96200353C65 /* SetCard.m */,
+				65BB537317F1B97900353C65 /* SetCardDeck.h */,
+				65BB537417F1B97900353C65 /* SetCardDeck.m */,
 				65B878B417F1AEB30017161F /* PlayingCardDeck.h */,
 				65B878B517F1AEB30017161F /* PlayingCardDeck.m */,
 				65B878B717F1AF350017161F /* Card.h */,
@@ -418,6 +428,8 @@
 				65B878B917F1AF360017161F /* Card.m in Sources */,
 				65B878BC17F1AF6F0017161F /* Deck.m in Sources */,
 				65BB536F17F1B76600353C65 /* SetCardView.m in Sources */,
+				65BB537217F1B96200353C65 /* SetCard.m in Sources */,
+				65BB537517F1B97900353C65 /* SetCardDeck.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

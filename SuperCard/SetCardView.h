@@ -7,7 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SetCard.h"
 
 @interface SetCardView : UIView
 
+@property (nonatomic) ShadeType shading;
+@property (nonatomic) ColorType color;
+@property (nonatomic) SymbolType symbol;
+@property (nonatomic) NumberType number;
+
+// designated initializer
+- (id)initWithNumber:(NumberType) number
+              symbol:(SymbolType) symbol
+               shade:(ShadeType) shading
+               color:(ColorType) color;
 @end
