@@ -19,13 +19,20 @@
                                     <outletCollection property="gestureRecognizers" destination="ET7-9t-hHj" appends="YES" id="vKj-Aw-Ccs"/>
                                 </connections>
                             </view>
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G2f-G5-jiY" customClass="SetCardView">
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.022505964601601702" green="0.54612262695196412" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="BbS-UV-6pL" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="7nL-oE-dFk"/>
-                            <constraint firstItem="BbS-UV-6pL" firstAttribute="top" secondItem="3" secondAttribute="top" constant="80" id="EIT-g3-1PB"/>
-                            <constraint firstItem="BbS-UV-6pL" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="60" id="Jyb-2x-qi2"/>
-                            <constraint firstItem="BbS-UV-6pL" firstAttribute="centerY" secondItem="3" secondAttribute="centerY" type="default" id="lcI-zA-9u9"/>
+                            <constraint firstAttribute="bottom" secondItem="G2f-G5-jiY" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="E84-xY-Oeh"/>
+                            <constraint firstItem="BbS-UV-6pL" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="JcT-vk-406"/>
+                            <constraint firstAttribute="trailing" secondItem="BbS-UV-6pL" secondAttribute="trailing" constant="180" id="Wwt-yS-X7X"/>
+                            <constraint firstAttribute="bottom" secondItem="BbS-UV-6pL" secondAttribute="bottom" constant="258" id="ZZm-wr-6Hd"/>
+                            <constraint firstItem="G2f-G5-jiY" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="180" id="auD-E3-ORa"/>
+                            <constraint firstItem="G2f-G5-jiY" firstAttribute="top" secondItem="3" secondAttribute="top" constant="265" id="gZ2-6F-Obu"/>
+                            <constraint firstItem="BbS-UV-6pL" firstAttribute="top" secondItem="3" secondAttribute="top" constant="27" id="qf5-No-LAg"/>
+                            <constraint firstAttribute="trailing" secondItem="G2f-G5-jiY" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="rhq-3M-TGz"/>
                         </constraints>
                     </view>
                     <connections>
@@ -39,6 +46,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
+            <point key="canvasLocation" x="142" y="145"/>
         </scene>
     </scenes>
     <classes>
@@ -47,6 +55,9 @@
         </class>
         <class className="PlayingCardView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlayingCardView.h"/>
+        </class>
+        <class className="SetCardView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SetCardView.h"/>
         </class>
         <class className="SuperCardViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SuperCardViewController.h"/>
