@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="11G63b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
+        <deployment defaultVersion="1552" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
         <!--Super Card View Controller-->
         <scene sceneID="5">
             <objects>
                 <viewController id="2" customClass="SuperCardViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hzA-Vi-7QC"/>
+                        <viewControllerLayoutGuide type="bottom" id="OMn-Id-2Xh"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="3">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BbS-UV-6pL" customClass="PlayingCardView">
+                                <rect key="frame" x="20" y="27" width="120" height="195"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -20,19 +26,20 @@
                                 </connections>
                             </view>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G2f-G5-jiY" customClass="SetCardView">
+                                <rect key="frame" x="180" y="265" width="120" height="195"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.022505964601601702" green="0.54612262695196412" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="G2f-G5-jiY" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="E84-xY-Oeh"/>
-                            <constraint firstItem="BbS-UV-6pL" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="JcT-vk-406"/>
+                            <constraint firstAttribute="bottom" secondItem="G2f-G5-jiY" secondAttribute="bottom" constant="20" symbolic="YES" id="E84-xY-Oeh"/>
+                            <constraint firstItem="BbS-UV-6pL" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" id="JcT-vk-406"/>
                             <constraint firstAttribute="trailing" secondItem="BbS-UV-6pL" secondAttribute="trailing" constant="180" id="Wwt-yS-X7X"/>
                             <constraint firstAttribute="bottom" secondItem="BbS-UV-6pL" secondAttribute="bottom" constant="258" id="ZZm-wr-6Hd"/>
                             <constraint firstItem="G2f-G5-jiY" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="180" id="auD-E3-ORa"/>
                             <constraint firstItem="G2f-G5-jiY" firstAttribute="top" secondItem="3" secondAttribute="top" constant="265" id="gZ2-6F-Obu"/>
                             <constraint firstItem="BbS-UV-6pL" firstAttribute="top" secondItem="3" secondAttribute="top" constant="27" id="qf5-No-LAg"/>
-                            <constraint firstAttribute="trailing" secondItem="G2f-G5-jiY" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="rhq-3M-TGz"/>
+                            <constraint firstAttribute="trailing" secondItem="G2f-G5-jiY" secondAttribute="trailing" constant="20" symbolic="YES" id="rhq-3M-TGz"/>
                         </constraints>
                     </view>
                     <connections>
@@ -50,25 +57,6 @@
             <point key="canvasLocation" x="142" y="145"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PlayingCardView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlayingCardView.h"/>
-        </class>
-        <class className="SetCardView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SetCardView.h"/>
-        </class>
-        <class className="SuperCardViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SuperCardViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="swipe:" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="playingCardView" candidateClass="PlayingCardView"/>
-                <relationship kind="outlet" name="setCardView" candidateClass="SetCardView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

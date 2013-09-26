@@ -41,6 +41,12 @@
     playingCardView.faceUp = YES;
 }
 
+- (void)setSetCardView:(SetCardView *)setCardView
+{
+    _setCardView = setCardView;
+    [self drawRandomSetCard];
+}
+
 - (void)drawRandomPlayingCard
 {
     Card *playingCard = [self.playingCardDeck drawRandomCard];
@@ -56,7 +62,7 @@
     Card *setCard = [self.setCardDeck drawRandomCard];
 #else
     Card *setCard = [[SetCard alloc] initWithNumber:kOne
-                                             symbol:kDiamond
+                                             symbol:kSquiggle
                                               shade:kSolid
                                               color:kGreen
                                                text:@""];
@@ -67,6 +73,7 @@
         self.setCardView.symbol = sc.symbol;
         self.setCardView.shading = sc.shading;
         self.setCardView.color = sc.color;
+        [self.setCardView setNeedsDisplay];
     }
 }
 - (IBAction)swipe:(UISwipeGestureRecognizer *)sender {
