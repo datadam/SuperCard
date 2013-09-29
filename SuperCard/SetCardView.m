@@ -8,6 +8,20 @@
 
 #import "SetCardView.h"
 
+@interface SetCardView()
+@property (nonatomic, strong) UIColor *drawColor;
+@property (nonatomic) CGFloat alphaValue;
+
+- (void)strokeAndFillWithBezierPath:(UIBezierPath *)path;
+- (void)drawDiamondinRect:(CGRect)drawRect;
+- (void)drawOvalinRect:(CGRect)drawRect;
+- (void)drawSquiggleinRect:(CGRect)drawRect;
+- (NSArray *)deriveDrawRectsFromNumber:(NumberType)number;
+- (void) drawSymbol:(SymbolType)symbol
+         withNumber:(NumberType)number;
+
+@end
+
 @implementation SetCardView
 
 - (void) setup {
@@ -25,61 +39,40 @@
     return self;
 }
 
-- (void)pushContextAndTranslateToDrawRect:(CGRect)drawRect
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(context);
-    CGContextTranslateCTM(context, drawRect.origin.x, drawRect.origin.y);
-    //CGContextTranslateCTM(context, self.bounds.size.width, self.bounds.size.height);
-    //CGContextRotateCTM(context, M_PI);
+#define OPEN_ALPHA (0.0)
+#define STRIPED_ALPHA (0.3)
+#define SOLID_ALPHA (1.0)
+- (void)setShading:(ShadeType)shading {
+    _shading = shading;
+    if (shading == kStriped) {
+        self.alphaValue = STRIPED_ALPHA;
+    } else if (shading == kSolid) {
+        self.alphaValue = SOLID_ALPHA;
+    } else {
+        self.alphaValue = OPEN_ALPHA;
+    }
 }
 
-- (void)popContext
-{
-    CGContextRestoreGState(UIGraphicsGetCurrentContext());
+- (void)setColor:(ColorType)color {
+    _color = color;
+    if (color == kGreen) {
+        self.drawColor = [UIColor greenColor];
+    } else if (color == kRed) {
+        self.drawColor = [UIColor redColor];
+    } else { // (color == kPurple)
+        self.drawColor = [UIColor purpleColor];
+    }
+}
+
+- (void)strokeAndFillWithBezierPath:(UIBezierPath *)path {
+    [self.drawColor setStroke];
+    [[self.drawColor colorWithAlphaComponent:self.alphaValue] setFill];
+    [path stroke];
+    [path fill];
 }
 
 - (void)drawDiamondinRect:(CGRect)drawRect
-                withColor:(ColorType)color
-              withShading:(ShadeType)shading
 {
-#if 0
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(context);
-    CGContextTranslateCTM(context, drawRect.origin.x, drawRect.origin.y);
-    CGContextMoveToPoint(context, 0.0, drawRect.size.height/2);
-    CGContextAddLineToPoint(context, drawRect.size.width/2, 0.0);
-    CGContextAddLineToPoint(context, drawRect.size.width, drawRect.size.height/2);
-    CGContextAddLineToPoint(context, drawRect.size.width/2, drawRect.size.height);
-    CGContextClosePath(context);
-    
-    CGFloat alphaValue = 0.0;
-    if (shading == kStriped) {
-        alphaValue = 0.3;
-    } else if (shading == kSolid) {
-        alphaValue = 1.0;
-    }
-    
-    if (color == kGreen) {
-        CGContextSetRGBFillColor(context, 0.0, 1.0, 0.0, alphaValue);
-        CGContextSetRGBStrokeColor(context, 0.0, 1.0, 0.0, 1.0);
-    } else if (color == kRed) {
-        CGContextSetRGBFillColor(context, 1.0, 0.0, 0.0, alphaValue);
-        CGContextSetRGBStrokeColor(context, 1.0, 0.0, 0.0, 1.0);
-    } else { // (color == kPurple)
-        CGContextSetRGBFillColor(context, 1.0, 0.0, 1.0, alphaValue);
-        CGContextSetRGBStrokeColor(context, 1.0, 0.0, 1.0, 1.0);
-    }
-
-    if (shading == kSolid) {
-        CGContextFillPath(context);
-    } else {
-        CGContextSetLineWidth(context, 2.0);
-        CGContextStrokePath(context);
-    }//CGContextFillPath(context);
-    
-    [self popContext];
-#else
     UIBezierPath * path= [[UIBezierPath alloc] init];
     CGPoint leftCenter, topCenter, rightCenter, bottomCenter;
     leftCenter.x = drawRect.origin.x;
@@ -99,116 +92,17 @@
     [path addLineToPoint:rightCenter];
     [path addLineToPoint:bottomCenter];
     [path closePath];
-    
-    CGFloat alphaValue = 0.0;
-    if (shading == kStriped) {
-        alphaValue = 0.3;
-    } else if (shading == kSolid) {
-        alphaValue = 1.0;
-    }
-    
-    if (color == kGreen) {
-        [[UIColor greenColor] setStroke];
-        [[[UIColor greenColor] colorWithAlphaComponent:alphaValue] setFill];
-    } else if (color == kRed) {
-        [[UIColor redColor] setStroke];
-        [[[UIColor redColor] colorWithAlphaComponent:alphaValue] setFill];
-    } else { // (color == kPurple)
-        [[UIColor purpleColor] setStroke];
-        [[[UIColor purpleColor] colorWithAlphaComponent:alphaValue] setFill];
-    }
-    
-    [path stroke];
-    [path fill];
-
-#endif
+    [self strokeAndFillWithBezierPath:path];
 }
 
 - (void)drawOvalinRect:(CGRect)drawRect
-             withColor:(ColorType)color
-           withShading:(ShadeType)shading
 {
-#if 0
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(context);
-    CGContextAddEllipseInRect(context, drawRect);
-    
-    CGFloat alphaValue = 0.0;
-    if (shading == kStriped) {
-        alphaValue = 0.3;
-    } else if (shading == kSolid) {
-        alphaValue = 1.0;
-    }
-    
-    if (color == kGreen) {
-        CGContextSetRGBFillColor(context, 0.0, 1.0, 0.0, alphaValue);
-        CGContextSetRGBStrokeColor(context, 0.0, 1.0, 0.0, 1.0);
-    } else if (color == kRed) {
-        CGContextSetRGBFillColor(context, 1.0, 0.0, 0.0, alphaValue);
-        CGContextSetRGBStrokeColor(context, 1.0, 0.0, 0.0, 1.0);
-    } else { // (color == kPurple)
-        CGContextSetRGBFillColor(context, 1.0, 0.0, 1.0, alphaValue);
-        CGContextSetRGBStrokeColor(context, 1.0, 0.0, 1.0, 1.0);
-    }
-    
-    CGContextSetLineWidth(context, 2.0);
-    CGContextStrokePath(context);
-    CGContextFillPath(context);
-    
-    CGContextSetRGBFillColor(context, 0.0, 1.0, 0.0, 1.0);
-    CGContextFillPath(context);
-
-    [self popContext];
-#else
     UIBezierPath * path= [UIBezierPath bezierPathWithOvalInRect:drawRect];
-    
-    CGFloat alphaValue = 0.0;
-    if (shading == kStriped) {
-        alphaValue = 0.3;
-    } else if (shading == kSolid) {
-        alphaValue = 1.0;
-    }
-    
-    if (color == kGreen) {
-        [[UIColor greenColor] setStroke];
-        [[[UIColor greenColor] colorWithAlphaComponent:alphaValue] setFill];
-    } else if (color == kRed) {
-        [[UIColor redColor] setStroke];
-        [[[UIColor redColor] colorWithAlphaComponent:alphaValue] setFill];
-    } else { // (color == kPurple)
-        [[UIColor purpleColor] setStroke];
-        [[[UIColor purpleColor] colorWithAlphaComponent:alphaValue] setFill];
-    }
-    
-    [path stroke];
-    [path fill];
-#endif
+    [self strokeAndFillWithBezierPath:path];
 }
 
-#define SQUIGGLE_START_OFFSET (0.15)
-#define SQUIGGLE_END_OFFSET (0.75)
-#define SQUIGGLE_END_YOFFSET (0.25)
-
 - (void)drawSquiggleinRect:(CGRect)drawRect
-                 withColor:(ColorType)color
-               withShading:(ShadeType)shading
 {
-#if 0
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(context);
-    CGContextTranslateCTM(context, drawRect.origin.x, drawRect.origin.y);
-    CGContextMoveToPoint(context, (drawRect.size.width * SQUIGGLE_START_OFFSET), drawRect.size.height);
-    CGContextAddArcToPoint(context, (0.0 - (2*drawRect.size.width*SQUIGGLE_START_OFFSET)), (0.0 - (0.5*drawRect.size.height)), (0.1*drawRect.size.width), (drawRect.size.height*SQUIGGLE_END_YOFFSET), (drawRect.size.height/2));
-    //CGContextAddArcToPoint(context, (drawRect.size.width*1.5), (drawRect.size.height*0.5), ((1.0 - SQUIGGLE_START_OFFSET)*drawRect.size.width), drawRect.size.height, drawRect.size.height/2);
-    //CGContextAddArcToPoint(context, (drawRect.size.width*1.5), (drawRect.size.height*1.5), ((1.0 - SQUIGGLE_END_OFFSET)*drawRect.size.width), ((1.0 - SQUIGGLE_END_YOFFSET)*drawRect.size.height), drawRect.size.height/2);
-    //CGContextAddArcToPoint(context, (0.0 - (2*drawRect.size.width*SQUIGGLE_START_OFFSET)), (0.5*drawRect.size.height), (drawRect.size.width * SQUIGGLE_START_OFFSET), drawRect.size.height, drawRect.size.height/2);
-    //CGContextClosePath(context);
-    
-    //CGContextSetRGBFillColor(context, 0.0, 1.0, 0.0, 1.0);
-    //CGContextFillPath(context);
-    CGContextSetRGBStrokeColor(context, 1.0, 0.0, 0.0, 1.0);
-    CGContextStrokePath(context);
-#else
     UIBezierPath * path= [[UIBezierPath alloc] init];
     CGPoint bottomLeft, topRight, control1, control2, control3, control4;
     bottomLeft.x = drawRect.origin.x;
@@ -227,28 +121,7 @@
     [path moveToPoint:bottomLeft];
     [path addCurveToPoint:topRight controlPoint1:control1 controlPoint2:control2];
     [path addCurveToPoint:bottomLeft controlPoint1:control3 controlPoint2:control4];
-
-    CGFloat alphaValue = 0.0;
-    if (shading == kStriped) {
-        alphaValue = 0.3;
-    } else if (shading == kSolid) {
-        alphaValue = 1.0;
-    }
-    
-    if (color == kGreen) {
-        [[UIColor greenColor] setStroke];
-        [[[UIColor greenColor] colorWithAlphaComponent:alphaValue] setFill];
-    } else if (color == kRed) {
-        [[UIColor redColor] setStroke];
-        [[[UIColor redColor] colorWithAlphaComponent:alphaValue] setFill];
-    } else { // (color == kPurple)
-        [[UIColor purpleColor] setStroke];
-        [[[UIColor purpleColor] colorWithAlphaComponent:alphaValue] setFill];
-    }
-    
-    [path stroke];
-    [path fill];
-#endif
+    [self strokeAndFillWithBezierPath:path];
 }
 
 #define RECT_HEIGHT (0.2)
@@ -265,7 +138,6 @@
         templateRect.size.width = self.bounds.size.width * RECT_WIDTH;
         if (number == kOne) {
             CGRect drawRect = templateRect;
-            //drawRect.origin.y = self.bounds.size.height/2 - self.bounds.size.height * RECT_HEIGHT/2;
             drawRect.origin.y = self.bounds.size.height * RECT_HEIGHT * 2.0;
             [rects addObject:[NSValue valueWithCGRect:drawRect]];
 
@@ -297,20 +169,18 @@
 
 - (void) drawSymbol:(SymbolType)symbol
          withNumber:(NumberType)number
-          withColor:(ColorType)color
-        withShading:(ShadeType)shading
 {
     NSArray *drawRects = [self deriveDrawRectsFromNumber:number];
     for (NSValue *rect in drawRects) {
         switch (self.symbol) {
             case kDiamond:
-                [self drawDiamondinRect:[rect CGRectValue] withColor:color withShading:shading];
+                [self drawDiamondinRect:[rect CGRectValue]];
                 break;
             case kSquiggle:
-                [self drawSquiggleinRect:[rect CGRectValue] withColor:color withShading:shading];
+                [self drawSquiggleinRect:[rect CGRectValue]];
                 break;
             case kOval:
-                [self drawOvalinRect:[rect CGRectValue] withColor:color withShading:shading];
+                [self drawOvalinRect:[rect CGRectValue]];
                 break;
         }
     }
@@ -320,8 +190,6 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    // Drawing code
-    // Drawing code
     UIBezierPath *roundedRect = [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:CORNER_RADIUS];
     
     [roundedRect addClip];
@@ -329,7 +197,7 @@
     [[UIColor whiteColor] setFill];
     UIRectFill(self.bounds);
     
-    [self drawSymbol:self.symbol withNumber:self.number withColor:self.color withShading:self.shading];
+    [self drawSymbol:self.symbol withNumber:self.number];
     
 }
 
