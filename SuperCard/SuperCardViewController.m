@@ -58,7 +58,7 @@
 }
 - (void)drawRandomSetCard
 {
-#if 0
+#if 1
     Card *setCard = [self.setCardDeck drawRandomCard];
 #else
     Card *setCard = [[SetCard alloc] initWithNumber:kOne

@@ -51,5 +51,6 @@ typedef NS_ENUM(NSUInteger, NumberType) {
 + (NSArray *)validSymbols;
 + (NSArray *)validShading;
 + (NSArray *)validColors;
++ (int)intFromNumberType:(NumberType)number;
 
 @end

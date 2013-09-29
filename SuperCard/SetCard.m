@@ -140,7 +140,10 @@
 }
 + (NSArray *)validColors {
     static NSArray *validColors = nil;
-    if (!validColors) validColors = [NSArray arrayWithObjects:[NSNumber numberWithInt:kOpen], [NSNumber numberWithInt:kStriped], [NSNumber numberWithInt:kSolid], nil];
+    if (!validColors) validColors = [NSArray arrayWithObjects:[NSNumber numberWithInt:kRed], [NSNumber numberWithInt:kGreen], [NSNumber numberWithInt:kPurple], nil];
     return validColors;
+}
++ (int)intFromNumberType:(NumberType)number {
+    return (number == kOne) ? 1 : (number == kTwo) ? 2 : 3;
 }
 @end

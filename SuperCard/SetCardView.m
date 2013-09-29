@@ -39,8 +39,10 @@
     CGContextRestoreGState(UIGraphicsGetCurrentContext());
 }
 
-- (void)drawDiamondinRect:(CGRect)drawRect {
-    //CGMutablePathRef diamondPath;
+- (void)drawDiamondinRect:(CGRect)drawRect
+                withColor:(ColorType)color
+              withShading:(ShadeType)shading
+{
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextTranslateCTM(context, drawRect.origin.x, drawRect.origin.y);
@@ -49,23 +51,67 @@
     CGContextAddLineToPoint(context, drawRect.size.width, drawRect.size.height/2);
     CGContextAddLineToPoint(context, drawRect.size.width/2, drawRect.size.height);
     CGContextClosePath(context);
-    //CGContextSetLineWidth(context, 2.0);
-    //CGContextStrokePath(context);
-    CGContextSetRGBFillColor(context, 0.0, 1.0, 0.0, 1.0);
+    
+    int alphaValue = 0.0;
+    if (shading == kStriped) {
+        alphaValue = 0.3;
+    } else if (shading == kSolid) {
+        alphaValue = 1.0;
+    }
+    
+    if (color == kGreen) {
+        CGContextSetRGBFillColor(context, 0.0, 1.0, 0.0, alphaValue);
+        CGContextSetRGBStrokeColor(context, 0.0, 1.0, 0.0, 1.0);
+    } else if (color == kRed) {
+        CGContextSetRGBFillColor(context, 1.0, 0.0, 0.0, alphaValue);
+        CGContextSetRGBStrokeColor(context, 1.0, 0.0, 0.0, 1.0);
+    } else { // (color == kPurple)
+        CGContextSetRGBFillColor(context, 1.0, 0.0, 1.0, alphaValue);
+        CGContextSetRGBStrokeColor(context, 1.0, 0.0, 1.0, 1.0);
+    }
+
+    CGContextSetLineWidth(context, 2.0);
+    CGContextStrokePath(context);
     CGContextFillPath(context);
-    //CGContextDrawPath(context, kCGPathFill);
+    
     [self popContext];
     NSLog(@"Drawing diamond");
-    //UIBezierPath *diamond = [UIBezierPath bezierPathWithCGPath:diamondPath];
 }
 
-- (void)drawOvalinRect:(CGRect)drawRect {
+- (void)drawOvalinRect:(CGRect)drawRect
+             withColor:(ColorType)color
+           withShading:(ShadeType)shading
+{
     CGContextRef context = UIGraphicsGetCurrentContext();
-    //CGContextSaveGState(context);
-    //CGContextTranslateCTM(context, drawRect.origin.x, drawRect.origin.y);
+    CGContextSaveGState(context);
     CGContextAddEllipseInRect(context, drawRect);
+    
+    int alphaValue = 0.0;
+    if (shading == kStriped) {
+        alphaValue = 0.3;
+    } else if (shading == kSolid) {
+        alphaValue = 1.0;
+    }
+    
+    if (color == kGreen) {
+        CGContextSetRGBFillColor(context, 0.0, 1.0, 0.0, alphaValue);
+        CGContextSetRGBStrokeColor(context, 0.0, 1.0, 0.0, 1.0);
+    } else if (color == kRed) {
+        CGContextSetRGBFillColor(context, 1.0, 0.0, 0.0, alphaValue);
+        CGContextSetRGBStrokeColor(context, 1.0, 0.0, 0.0, 1.0);
+    } else { // (color == kPurple)
+        CGContextSetRGBFillColor(context, 1.0, 0.0, 1.0, alphaValue);
+        CGContextSetRGBStrokeColor(context, 1.0, 0.0, 1.0, 1.0);
+    }
+    
+    CGContextSetLineWidth(context, 2.0);
+    CGContextStrokePath(context);
+    CGContextFillPath(context);
+    
     CGContextSetRGBFillColor(context, 0.0, 1.0, 0.0, 1.0);
     CGContextFillPath(context);
+
+    [self popContext];
     NSLog(@"Drawing oval");
 }
 
@@ -73,7 +119,10 @@
 #define SQUIGGLE_END_OFFSET (0.75)
 #define SQUIGGLE_END_YOFFSET (0.25)
 
-- (void)drawSquiggleinRect:(CGRect)drawRect {
+- (void)drawSquiggleinRect:(CGRect)drawRect
+                 withColor:(ColorType)color
+               withShading:(ShadeType)shading
+{
 #if 0
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
@@ -104,18 +153,101 @@
     control3.y = drawRect.origin.y + drawRect.size.height * 1.5;
     control4.x = drawRect.origin.x + drawRect.size.width * 0.25;
     control4.y = drawRect.origin.y + drawRect.size.height * 0.5;
+
     [path moveToPoint:bottomLeft];
     [path addCurveToPoint:topRight controlPoint1:control1 controlPoint2:control2];
     [path addCurveToPoint:bottomLeft controlPoint1:control3 controlPoint2:control4];
+
+    int alphaValue = 0.0;
+    if (shading == kStriped) {
+        alphaValue = 0.3;
+    } else if (shading == kSolid) {
+        alphaValue = 1.0;
+    }
+    
+    if (color == kGreen) {
+        [[UIColor greenColor] setStroke];
+        [[[UIColor greenColor] colorWithAlphaComponent:alphaValue] setFill];
+    } else if (color == kRed) {
+        [[UIColor redColor] setStroke];
+        [[[UIColor redColor] colorWithAlphaComponent:alphaValue] setFill];
+    } else { // (color == kPurple)
+        [[UIColor purpleColor] setStroke];
+        [[[UIColor purpleColor] colorWithAlphaComponent:alphaValue] setFill];
+    }
+    
     [path stroke];
     [path fill];
 #endif
     NSLog(@"Drawing squiggle");
 }
 
-#define CORNER_RADIUS (12.0)
 #define RECT_HEIGHT (0.2)
 #define RECT_WIDTH (0.8)
+
+- (NSArray *)deriveDrawRectsFromNumber:(NumberType)number
+{
+    NSMutableArray *rects = [[NSMutableArray alloc] init];
+    if (rects) {
+        CGRect templateRect;
+        templateRect.origin.y = 0;
+        templateRect.origin.x = self.bounds.size.width * (1.0 - RECT_WIDTH)/2;
+        templateRect.size.height = self.bounds.size.height * RECT_HEIGHT;
+        templateRect.size.width = self.bounds.size.width * RECT_WIDTH;
+        if (number == kOne) {
+            CGRect drawRect = templateRect;
+            //drawRect.origin.y = self.bounds.size.height/2 - self.bounds.size.height * RECT_HEIGHT/2;
+            drawRect.origin.y = self.bounds.size.height * RECT_HEIGHT * 2.0;
+            [rects addObject:[NSValue valueWithCGRect:drawRect]];
+
+        } else if (number == kTwo) {
+            CGRect drawRect = templateRect;
+            drawRect.origin.y = self.bounds.size.height * RECT_HEIGHT;
+            [rects addObject:[NSValue valueWithCGRect:drawRect]];
+            
+            CGRect drawRect2 = templateRect;
+            drawRect2.origin.y = self.bounds.size.height * RECT_HEIGHT * 3.0;
+            [rects addObject:[NSValue valueWithCGRect:drawRect2]];
+
+        } else { // (number == kThree)
+            CGRect drawRect = templateRect;
+            drawRect.origin.y = self.bounds.size.height * RECT_HEIGHT * 0.5;
+            [rects addObject:[NSValue valueWithCGRect:drawRect]];
+            
+            CGRect drawRect2 = templateRect;
+            drawRect2.origin.y = self.bounds.size.height * RECT_HEIGHT * 2.0;
+            [rects addObject:[NSValue valueWithCGRect:drawRect2]];
+            
+            CGRect drawRect3 = templateRect;
+            drawRect3.origin.y = self.bounds.size.height * RECT_HEIGHT * 3.5;
+            [rects addObject:[NSValue valueWithCGRect:drawRect3]];
+        }
+    }
+    return rects;
+}
+
+- (void) drawSymbol:(SymbolType)symbol
+         withNumber:(NumberType)number
+          withColor:(ColorType)color
+        withShading:(ShadeType)shading
+{
+    NSArray *drawRects = [self deriveDrawRectsFromNumber:number];
+    for (NSValue *rect in drawRects) {
+        switch (self.symbol) {
+            case kDiamond:
+                [self drawDiamondinRect:[rect CGRectValue] withColor:color withShading:shading];
+                break;
+            case kSquiggle:
+                [self drawSquiggleinRect:[rect CGRectValue] withColor:color withShading:shading];
+                break;
+            case kOval:
+                [self drawOvalinRect:[rect CGRectValue] withColor:color withShading:shading];
+                break;
+        }
+    }
+}
+
+#define CORNER_RADIUS (12.0)
 
 - (void)drawRect:(CGRect)rect
 {
@@ -128,24 +260,8 @@
     [[UIColor whiteColor] setFill];
     UIRectFill(self.bounds);
     
-    CGRect drawRect;
-    drawRect.origin.y = self.bounds.size.height/2 - self.bounds.size.height * RECT_HEIGHT/2;
-    drawRect.origin.x = self.bounds.size.width * (1.0 - RECT_WIDTH)/2;
-    drawRect.size.height = self.bounds.size.height * RECT_HEIGHT;
-    drawRect.size.width = self.bounds.size.width * RECT_WIDTH;
+    [self drawSymbol:self.symbol withNumber:self.number withColor:self.color withShading:self.shading];
     
-    //NSLog(@"drawing rect with symbol: %@", self.symbol == kDiamond ? @"diamond" : self.symbol == kSquiggle ? @"squiggle" : @"oval");
-    switch (self.symbol) {
-        case kDiamond:
-            [self drawDiamondinRect:drawRect];
-            break;
-        case kOval:
-            [self drawOvalinRect:drawRect];
-            break;
-        case kSquiggle:
-            [self drawSquiggleinRect:drawRect];
-            break;
-    }
 }
 
 
