@@ -28,6 +28,10 @@
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G2f-G5-jiY" customClass="SetCardView">
                                 <rect key="frame" x="180" y="265" width="120" height="283"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="u5A-L5-766" appends="YES" id="fKy-tl-mB7"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.022505964601601702" green="0.54612262695196412" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -53,6 +57,11 @@
                         <action selector="swipe:" destination="2" id="Ck7-Qs-Mye"/>
                     </connections>
                 </swipeGestureRecognizer>
+                <tapGestureRecognizer id="u5A-L5-766">
+                    <connections>
+                        <action selector="tapSetCard:" destination="2" id="nFy-dt-gr9"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="142" y="145"/>
         </scene>

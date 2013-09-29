@@ -58,15 +58,7 @@
 }
 - (void)drawRandomSetCard
 {
-#if 1
     Card *setCard = [self.setCardDeck drawRandomCard];
-#else
-    Card *setCard = [[SetCard alloc] initWithNumber:kOne
-                                             symbol:kSquiggle
-                                              shade:kSolid
-                                              color:kGreen
-                                               text:@""];
-#endif
     if ([setCard isKindOfClass:[SetCard class]]) {
         SetCard *sc = (SetCard *)setCard;
         self.setCardView.number = sc.number;
@@ -74,6 +66,11 @@
         self.setCardView.shading = sc.shading;
         self.setCardView.color = sc.color;
         [self.setCardView setNeedsDisplay];
+        NSLog(@"Drew a %@ %@ %d %@ ",
+              (sc.color == kRed) ? @"red" : (sc.color == kGreen) ? @"green" : @"purple",
+              (sc.shading == kOpen) ? @"open" : (sc.shading == kSolid) ? @"solid" : @"striped",
+              (sc.number == kOne) ? 1 : (sc.number == kTwo) ? 2 : 3,
+              (sc.symbol == kDiamond) ? @"diamond" : (sc.symbol == kOval) ? @"oval" : @"squiggle");
     }
 }
 - (IBAction)swipe:(UISwipeGestureRecognizer *)sender {
@@ -83,6 +80,15 @@
                     animations:^{
                         if (!self.playingCardView.faceUp) [self drawRandomPlayingCard];
                         self.playingCardView.faceUp = !self.playingCardView.faceUp;
+                    }
+                    completion:NULL];
+}
+- (IBAction)tapSetCard:(UITapGestureRecognizer *)sender {
+    [UIView transitionWithView:self.setCardView
+                      duration:0.5
+                       options:UIViewAnimationOptionTransitionFlipFromLeft
+                    animations:^{
+                        [self drawRandomSetCard];
                     }
                     completion:NULL];
 }

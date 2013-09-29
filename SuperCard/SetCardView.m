@@ -43,6 +43,7 @@
                 withColor:(ColorType)color
               withShading:(ShadeType)shading
 {
+#if 0
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextTranslateCTM(context, drawRect.origin.x, drawRect.origin.y);
@@ -52,7 +53,7 @@
     CGContextAddLineToPoint(context, drawRect.size.width/2, drawRect.size.height);
     CGContextClosePath(context);
     
-    int alphaValue = 0.0;
+    CGFloat alphaValue = 0.0;
     if (shading == kStriped) {
         alphaValue = 0.3;
     } else if (shading == kSolid) {
@@ -70,23 +71,69 @@
         CGContextSetRGBStrokeColor(context, 1.0, 0.0, 1.0, 1.0);
     }
 
-    CGContextSetLineWidth(context, 2.0);
-    CGContextStrokePath(context);
-    CGContextFillPath(context);
+    if (shading == kSolid) {
+        CGContextFillPath(context);
+    } else {
+        CGContextSetLineWidth(context, 2.0);
+        CGContextStrokePath(context);
+    }//CGContextFillPath(context);
     
     [self popContext];
-    NSLog(@"Drawing diamond");
+#else
+    UIBezierPath * path= [[UIBezierPath alloc] init];
+    CGPoint leftCenter, topCenter, rightCenter, bottomCenter;
+    leftCenter.x = drawRect.origin.x;
+    leftCenter.y = drawRect.origin.y + drawRect.size.height/2;
+    
+    topCenter.x = drawRect.origin.x + drawRect.size.width/2;
+    topCenter.y = drawRect.origin.y;
+
+    rightCenter.x = drawRect.origin.x + drawRect.size.width;
+    rightCenter.y = drawRect.origin.y + drawRect.size.height/2;
+    
+    bottomCenter.x = drawRect.origin.x + drawRect.size.width/2;
+    bottomCenter.y = drawRect.origin.y + drawRect.size.height;
+    
+    [path moveToPoint:leftCenter];
+    [path addLineToPoint:topCenter];
+    [path addLineToPoint:rightCenter];
+    [path addLineToPoint:bottomCenter];
+    [path closePath];
+    
+    CGFloat alphaValue = 0.0;
+    if (shading == kStriped) {
+        alphaValue = 0.3;
+    } else if (shading == kSolid) {
+        alphaValue = 1.0;
+    }
+    
+    if (color == kGreen) {
+        [[UIColor greenColor] setStroke];
+        [[[UIColor greenColor] colorWithAlphaComponent:alphaValue] setFill];
+    } else if (color == kRed) {
+        [[UIColor redColor] setStroke];
+        [[[UIColor redColor] colorWithAlphaComponent:alphaValue] setFill];
+    } else { // (color == kPurple)
+        [[UIColor purpleColor] setStroke];
+        [[[UIColor purpleColor] colorWithAlphaComponent:alphaValue] setFill];
+    }
+    
+    [path stroke];
+    [path fill];
+
+#endif
 }
 
 - (void)drawOvalinRect:(CGRect)drawRect
              withColor:(ColorType)color
            withShading:(ShadeType)shading
 {
+#if 0
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextAddEllipseInRect(context, drawRect);
     
-    int alphaValue = 0.0;
+    CGFloat alphaValue = 0.0;
     if (shading == kStriped) {
         alphaValue = 0.3;
     } else if (shading == kSolid) {
@@ -112,7 +159,30 @@
     CGContextFillPath(context);
 
     [self popContext];
-    NSLog(@"Drawing oval");
+#else
+    UIBezierPath * path= [UIBezierPath bezierPathWithOvalInRect:drawRect];
+    
+    CGFloat alphaValue = 0.0;
+    if (shading == kStriped) {
+        alphaValue = 0.3;
+    } else if (shading == kSolid) {
+        alphaValue = 1.0;
+    }
+    
+    if (color == kGreen) {
+        [[UIColor greenColor] setStroke];
+        [[[UIColor greenColor] colorWithAlphaComponent:alphaValue] setFill];
+    } else if (color == kRed) {
+        [[UIColor redColor] setStroke];
+        [[[UIColor redColor] colorWithAlphaComponent:alphaValue] setFill];
+    } else { // (color == kPurple)
+        [[UIColor purpleColor] setStroke];
+        [[[UIColor purpleColor] colorWithAlphaComponent:alphaValue] setFill];
+    }
+    
+    [path stroke];
+    [path fill];
+#endif
 }
 
 #define SQUIGGLE_START_OFFSET (0.15)
@@ -158,7 +228,7 @@
     [path addCurveToPoint:topRight controlPoint1:control1 controlPoint2:control2];
     [path addCurveToPoint:bottomLeft controlPoint1:control3 controlPoint2:control4];
 
-    int alphaValue = 0.0;
+    CGFloat alphaValue = 0.0;
     if (shading == kStriped) {
         alphaValue = 0.3;
     } else if (shading == kSolid) {
@@ -179,7 +249,6 @@
     [path stroke];
     [path fill];
 #endif
-    NSLog(@"Drawing squiggle");
 }
 
 #define RECT_HEIGHT (0.2)
